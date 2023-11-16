@@ -10,22 +10,17 @@ bibliography: BIOL3140.bib
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Methods
+To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX711 amplifier and an Arduino Uno microcontroller was constructed. Using an Arduino sketch to obtain data, individuals performed isometric contractions at different angles when grabbing the handle of the Load Cell. The different angles ranged from 45° to 157.5° at 11.25° intervals, with a ganiometer being strapped to the arm at the elbow joint to see what angle the arm was making for each contraction.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# Results
 
-```{r cars}
-summary(cars)
-```
+# Discussion
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# Author Contributions
+Audrey:
+Ava:
+Blake:
+Conor:

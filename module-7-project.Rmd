@@ -10,8 +10,6 @@ bibliography: BIOL3140.bib
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(tidyverse)
-
-data <- readRDS("proj7_data.rds")
 ```
 
 # Introduction
@@ -26,7 +24,13 @@ When collecting our data, we are assuming that the force measured by the hand on
 To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX711 amplifier and an Arduino Uno microcontroller was constructed. Using an Arduino sketch to obtain data, individuals performed isometric contractions at different angles when grabbing the handle of the Load Cell. The different angles ranged from 45° to 157.5° at 11.25° intervals, with a ganiometer being strapped to the arm at the elbow joint to see what angle the arm was making for each contraction.
 
 # Results
+```{r "analyzing data", echo=F, message=F}
 
+data <- readRDS("proj7_data.RDS")
+
+ang <- seq(45,168.75, length.out=12)
+for i in data
+```
 
 # Discussion
 

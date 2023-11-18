@@ -9,6 +9,9 @@ bibliography: BIOL3140.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
+library(tidyverse)
+
+data <- readRDS("proj7_data.rds")
 ```
 
 # Introduction

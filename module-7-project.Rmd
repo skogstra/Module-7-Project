@@ -15,7 +15,12 @@ data <- readRDS("proj7_data.rds")
 ```
 
 # Introduction
-The amount of force produced by muscle tissue is dependent on the relationship between the speed of contraction and the length of the muscle, but this project focuses specifically on the force-length relationship. 
+The amount of force produced by muscle tissue is dependent on the relationship between the speed of contraction and the length of the muscle, but this project focuses specifically on the force-length relationship. We are isolating the human upper limb, specifically the forearm flexors, and how they respond to eccentric fatigue, in which tension is produced while the muscle is lengthening.
+
+Eccentric exercise has been found to shift peak force to longer muscle lengths post-exercise, shifting the force-length relationship, as well [@butterfield2005]. This shift has been attributed to both muscle damage and fatigue following exercise [@butterfield2005]. By comparing the angle at which maximum force occurs between non-fatigued and eccentrically fatigued forearm flexors, we hope to gain a better understanding of force-length relationship under the influence of fatigue. 
+
+When collecting our data, we are assuming that the force measured by the hand on the load sensor is representative of the force-length relationship of the input muscles. The isometric force of maximum voluntary contractions is recorded over a normal range of angles between the upper and lower arm. 
+
 
 # Methods
 To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX711 amplifier and an Arduino Uno microcontroller was constructed. Using an Arduino sketch to obtain data, individuals performed isometric contractions at different angles when grabbing the handle of the Load Cell. The different angles ranged from 45° to 157.5° at 11.25° intervals, with a ganiometer being strapped to the arm at the elbow joint to see what angle the arm was making for each contraction.

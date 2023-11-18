@@ -25,8 +25,19 @@ To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX71
 
 # Results
 ```{r "analyzing data", echo=F, message=F}
-
 data <- readRDS("proj7_data.RDS")
+
+f <- list.files("new_data",pattern=".csv",full.names=T)
+dat.l <- list()
+for (i in f){
+  met.dat<- unlist(strsplit(i,"_"))
+  subject <- met.dat[3]
+  activity <- met.dat[4]
+  angle <- gsub(".csv","",met.dat[5]) 
+  dat.l[[i]]<- read_csv(i)%>%
+    mutate(subject=subject,activity=activity,angle=angle)
+}
+dat <- do.call(rbind,dat.l)
 
 ang <- seq(45,168.75, length.out=12)
 for i in data

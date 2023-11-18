@@ -25,7 +25,7 @@ To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX71
 
 # Results
 ```{r "analyzing data", echo=F, message=F}
-data <- readRDS("proj7_data.RDS")
+
 
 f <- list.files("new_data",pattern=".csv",full.names=T)
 dat.l <- list()
@@ -37,10 +37,16 @@ for (i in f){
   dat.l[[i]]<- read_csv(i)%>%
     mutate(subject=subject,activity=activity,angle=angle)
 }
-dat <- do.call(rbind,dat.l)
+dat <- do.call(rbind,dat.l) %>%
+  group_by(subject,activity,angle)%>%
+  mutate(force_max=max(force))
 
-ang <- seq(45,168.75, length.out=12)
-for i in data
+dat <- dat%>%
+  group_by(subject)%>%
+  mutate(norm_force=force_max/max(force_max))
+
+ang <- seq(45,168.75,length.out=12)
+qplot(ang,dat$norm_force)+geom_point(aes(x=ang,y=norm_force))
 ```
 
 # Discussion

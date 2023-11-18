@@ -10,6 +10,7 @@ bibliography: BIOL3140.bib
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(tidyverse)
+library(MuMIn)
 ```
 
 # Introduction
@@ -25,8 +26,6 @@ To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX71
 
 # Results
 ```{r "analyzing data", echo=F, message=F}
-
-
 f <- list.files("new_data",pattern=".csv",full.names=T)
 dat.l <- list()
 for (i in f){
@@ -38,15 +37,28 @@ for (i in f){
     mutate(subject=subject,activity=activity,angle=angle)
 }
 dat <- do.call(rbind,dat.l) %>%
+  mutate(force=abs(force)) %>% 
   group_by(subject,activity,angle)%>%
   mutate(force_max=max(force))
 
 dat <- dat%>%
-  group_by(subject)%>%
+  group_by(subject,activity)%>%
   mutate(norm_force=force_max/max(force_max))
 
-ang <- seq(45,168.75,length.out=12)
-qplot(ang,dat$norm_force)+geom_point(aes(x=ang,y=norm_force))
+dat %>% 
+  ggplot(aes(ang,force,col=activity))+geom_point()
+
+ang <- seq(45,168.75,length.out = 10642)
+
+AICs <- dat%>%
+  group_by(subject,activity) %>% 
+  summarize(
+    m2=AICc(lm(force~poly(ang,2))),
+    m3=AICc(lm(force~poly(ang,3))), 
+    m4=AICc(lm(force~poly(ang,4)))
+  )%>%
+  pivot_longer(m2:m4,names_to="model",values_to="AICc")%>%
+  print()
 ```
 
 # Discussion

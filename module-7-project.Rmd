@@ -112,14 +112,15 @@ dat %>%
     title = "Normalized Force by Activity and Angle",
     x = "Angle",
     y = "Normalized Force",
-    caption = "You can somewhat see the angle shift in this graph, but the data is clearly very messy"
   )
 ```
+
+The data is messy and does not form a perfect curve, but a shift in maxiumum force angle can clearly be seen between the control and fatigue trials.
 
 # Discussion
 
 # Author Contributions
-Audrey: Methods
+Audrey: Methods, Part of Intro, Fixing Code Errors
 Ava:
 Blake:
 Conor:

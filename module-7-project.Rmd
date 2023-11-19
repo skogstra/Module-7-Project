@@ -22,7 +22,9 @@ When collecting our data, we are assuming that the force measured by the hand on
 
 
 # Methods
-To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX711 amplifier and an Arduino Uno microcontroller was constructed. Using an Arduino sketch to obtain data, individuals performed isometric contractions at different angles when grabbing the handle of the Load Cell. The different angles ranged from 45° to 157.5° at 11.25° intervals, with a ganiometer being strapped to the arm at the elbow joint to see what angle the arm was making for each contraction.
+To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX711 amplifier and an Arduino Uno microcontroller was constructed. Using an Arduino sketch to obtain data, individuals performed isometric contractions at different angles when grabbing the handle of the Load Cell. The different angles ranged from 45° to 168.75° at 11.25° intervals, with a ganiometer being strapped to the arm at the elbow joint to see what angle the arm was making for each contraction. Contractions were held for as close to 30 seconds as possible before relaxing and moving on to the next angle. All twelve angles were tested in a single run before the bicep was eccentrically fatigued, lowering a heavy backpack repeatedly for three minutes to exhaust the muscle. After three minutes of fatiguing, the twelve angles were tested again in this fatigued state.
+
+
 
 # Results
 ```{r "analyzing data", echo=F, message=F}

@@ -108,10 +108,11 @@ ang <- seq(45,168.75,length.out = 10177)
 dat %>% 
   ggplot(aes(ang,norm_force,col=activity)) +
   geom_point() +
-    labs(
+  labs(
     title = "Normalized Force by Activity and Angle",
     x = "Angle",
     y = "Normalized Force",
+    caption = "You can somewhat see the angle shift in this graph, but the data is clearly very messy"
   )
 ```
 

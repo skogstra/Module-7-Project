@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(tidyverse)
 library(MuMIn)
+library(dplyr)
 ```
 
 # Introduction
@@ -56,9 +57,9 @@ dat %>%
 AICs <- dat%>%
   group_by(subject,activity) %>% 
   summarize(
-    m2=AICc(lm(force~poly(ang,2),.)),
-    m3=AICc(lm(force~poly(ang,3),.)), 
-    m4=AICc(lm(force~poly(ang,4),.))
+    m2=AICc(lm(norm_force~poly(ang,2),.)),
+    m3=AICc(lm(norm_force~poly(ang,3),.)), 
+    m4=AICc(lm(norm_force~poly(ang,4),.))
   )%>%
   pivot_longer(m2:m4,names_to="model",values_to="AICc")%>%
   print()
@@ -68,9 +69,9 @@ x.pred <- seq(45,157.5,length.out = 1000)
 fits <- dat%>%
   group_by(subject,activity)%>%
   summarize(
-    m2=predict(lm(force~poly(ang,2),.),newdata=data.frame(ang=x.pred)),
-    m3=predict(lm(force~poly(ang,3),.),newdata=data.frame(ang=x.pred)), 
-    m4=predict(lm(force~poly(ang,4),.),newdata=data.frame(ang=x.pred)) 
+    m2=predict(lm(norm_force~poly(ang,2),.),newdata=data.frame(ang=x.pred)),
+    m3=predict(lm(norm_force~poly(ang,3),.),newdata=data.frame(ang=x.pred)), 
+    m4=predict(lm(norm_force~poly(ang,4),.),newdata=data.frame(ang=x.pred)) 
   )%>%
    pivot_longer(m2:m4,names_to="model")%>%
    group_by(subject,activity,model)%>%
@@ -91,8 +92,10 @@ anova(lm(theta_max~activity,best.models))
 
 #Calculating mean shift with SEM
 best.models %>%
-  pivot_wider(id_cols=subject,names_from=activity,values_from=theta_max) %>% 
-  mutate(shift=fatigue-control) %>% 
+  pivot_wider(id_cols=subject,names_from=activity,values_from=theta_max)
+
+best.models%>%
+  mutate(shift= fatigue-control) %>% 
   ungroup()%>%
   summarise(mean.shift=mean(shift),se.shift=sd(shift)/sqrt(length(shift)))
 ```

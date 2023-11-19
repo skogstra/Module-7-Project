@@ -29,59 +29,64 @@ To obtain force data, a set-up consisting of a 100-kg S-type Load Cell with HX71
 To normalize the unit-less data, the maximum force for each angle was found and each of these maxima was divided by the maximum force across all trials (including both control and fatigue). Once these relative 0-1 values were established, the shift in the maximum \theta between control and fatigue was determined along with the significance of the shift.
 
 # Results
-```{r "analyzing data", echo=F, message=F}
+```{r load data, echo=F, message=F}
 f <- list.files("new_data",pattern=".csv",full.names=T)
+
 dat.l <- list()
+
 for (i in f){
   met.dat<- unlist(strsplit(i,"_"))
   subject <- met.dat[3]
   activity <- met.dat[4]
-  angle <- gsub(".csv","",met.dat[5]) 
+  angle <- as.numeric(gsub(".csv","",met.dat[5]))
   dat.l[[i]]<- read_csv(i)%>%
     mutate(subject=subject,activity=activity,angle=angle)
 }
-dat <- do.call(rbind,dat.l) %>%
-  mutate(force=abs(force)) %>% 
-  group_by(subject,activity,angle)%>%
-  mutate(force_max=max(force))
 
-dat <- dat%>%
-  group_by(subject,activity)%>%
-  mutate(norm_force=force_max/max(force_max))
+dat <- do.call(rbind,dat.l)
 
-ang <- seq(45,168.75,length.out = 10642)
-dat %>% 
-  ggplot(aes(ang,norm_force,col=activity))+geom_point()
+dat <- dat %>%
+  filter(!(subject=="letiacianna" | subject=="leticianna" & activity %in% c("fatigue", "control"))) %>%
+  group_by(activity) %>%
+  mutate(norm_force = abs(force/max(force)))
+```
 
+```{r AICcs, echo=F}
 #Getting AICc scores for the three polynomial models
 AICs <- dat%>%
   group_by(subject,activity) %>% 
   summarize(
-    m2=AICc(lm(norm_force~poly(ang,2),.)),
-    m3=AICc(lm(norm_force~poly(ang,3),.)), 
-    m4=AICc(lm(norm_force~poly(ang,4),.))
-  )%>%
+    m2=AICc(lm(norm_force~poly(angle,2))),
+    m3=AICc(lm(norm_force~poly(angle,3))), 
+    m4=AICc(lm(norm_force~poly(angle,4)))
+    )%>%
   pivot_longer(m2:m4,names_to="model",values_to="AICc")%>%
   print()
+```
 
+```{r pred, echo=F}
 #Predicting values
 x.pred <- seq(45,157.5,length.out = 1000)
+
 fits <- dat%>%
   group_by(subject,activity)%>%
   summarize(
-    m2=predict(lm(norm_force~poly(ang,2),.),newdata=data.frame(ang=x.pred)),
-    m3=predict(lm(norm_force~poly(ang,3),.),newdata=data.frame(ang=x.pred)), 
-    m4=predict(lm(norm_force~poly(ang,4),.),newdata=data.frame(ang=x.pred)) 
+    m2=predict(lm(norm_force~poly(angle,2)),newdata=data.frame(angle=x.pred)),
+    m3=predict(lm(norm_force~poly(angle,3)),newdata=data.frame(angle=x.pred)), 
+    m4=predict(lm(norm_force~poly(angle,4)),newdata=data.frame(angle=x.pred)) 
   )%>%
    pivot_longer(m2:m4,names_to="model")%>%
    group_by(subject,activity,model)%>%
    summarize(theta_max=x.pred[which.max(value)])%>%
    print()
+```
 
+```{r best, echo=F}
 #Joining AICs and fits tables to filter model predictions by best fitting model
 best.models <- fits%>%
   left_join(AICs)%>%
   group_by(subject,activity) 
+
 best.models %>% 
   mutate(best=AICc==min(AICc))%>%
   filter(best==TRUE)%>%
@@ -89,15 +94,19 @@ best.models %>%
   print()
 
 anova(lm(theta_max~activity,best.models))
+```
 
+```{r mean_shift,  echo=F, message=F}
 #Calculating mean shift with SEM
 best.models %>%
-  pivot_wider(id_cols=subject,names_from=activity,values_from=theta_max)
-
-best.models%>%
+  pivot_wider(id_cols=subject, names_from=activity, values_from=theta_max)%>%
   mutate(shift= fatigue-control) %>% 
   ungroup()%>%
   summarise(mean.shift=mean(shift),se.shift=sd(shift)/sqrt(length(shift)))
+```
+
+```{r graphs, echo=F}
+
 ```
 
 # Discussion

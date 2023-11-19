@@ -51,7 +51,7 @@ dat <- dat %>%
   mutate(norm_force = abs(force/max(force)))
 ```
 
-```{r AICcs, echo=F}
+```{r AICcs, echo=F, warning=F}
 #Getting AICc scores for the three polynomial models
 AICs <- dat%>%
   group_by(subject,activity) %>% 
@@ -64,7 +64,7 @@ AICs <- dat%>%
   print()
 ```
 
-```{r pred, echo=F}
+```{r pred, echo=F, warning=F}
 #Predicting values
 x.pred <- seq(45,157.5,length.out = 1000)
 
@@ -81,13 +81,11 @@ fits <- dat%>%
    print()
 ```
 
-```{r best, echo=F}
+```{r join, echo=F, warning=F}
 #Joining AICs and fits tables to filter model predictions by best fitting model
 best.models <- fits%>%
   left_join(AICs)%>%
-  group_by(subject,activity) 
-
-best.models %>% 
+  group_by(subject,activity)%>% 
   mutate(best=AICc==min(AICc))%>%
   filter(best==TRUE)%>%
   dplyr::select(-best)%>%
@@ -96,7 +94,7 @@ best.models %>%
 anova(lm(theta_max~activity,best.models))
 ```
 
-```{r mean_shift,  echo=F, message=F}
+```{r mean shift,  echo=F, message=F, warning=F}
 #Calculating mean shift with SEM
 best.models %>%
   pivot_wider(id_cols=subject, names_from=activity, values_from=theta_max)%>%

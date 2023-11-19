@@ -253,6 +253,28 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
 
 
 
@@ -359,6 +381,26 @@ display: none;
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
+<p>The amount of force produced by muscle tissue is dependent on the
+relationship between the speed of contraction and the length of the
+muscle, but this project focuses specifically on the force-length
+relationship. We are isolating the human upper limb, specifically the
+forearm flexors, and how they respond to eccentric fatigue, in which
+tension is produced while the muscle is lengthening.</p>
+<p>Eccentric exercise has been found to shift peak force to longer
+muscle lengths post-exercise, shifting the force-length relationship, as
+well <span class="citation">(Butterfield and Herzog 2005)</span>. This
+shift has been attributed to both muscle damage and fatigue following
+exercise <span class="citation">(Butterfield and Herzog 2005)</span>. By
+comparing the angle at which maximum force occurs between non-fatigued
+and eccentrically fatigued forearm flexors, we hope to gain a better
+understanding of force-length relationship under the influence of
+fatigue.</p>
+<p>When collecting our data, we are assuming that the force measured by
+the hand on the load sensor is representative of the force-length
+relationship of the input muscles. The isometric force of maximum
+voluntary contractions is recorded over a normal range of angles between
+the upper and lower arm.</p>
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
@@ -366,17 +408,109 @@ display: none;
 Cell with HX711 amplifier and an Arduino Uno microcontroller was
 constructed. Using an Arduino sketch to obtain data, individuals
 performed isometric contractions at different angles when grabbing the
-handle of the Load Cell. The different angles ranged from 45[R]</p>
+handle of the Load Cell. The different angles ranged from 45° to 168.75°
+at 11.25° intervals, with a ganiometer being strapped to the arm at the
+elbow joint to see what angle the arm was making for each contraction.
+Contractions were held for as close to 30 seconds as possible before
+relaxing and moving on to the next angle. All twelve angles were tested
+in a single run before the bicep was eccentrically fatigued, lowering a
+heavy backpack repeatedly for three minutes to exhaust the muscle. After
+three minutes of fatiguing, the twelve angles were tested again in this
+fatigued state.</p>
+<p>To normalize the unit-less data, the maximum force for each angle was
+found and each of these maxima was divided by the maximum force across
+all trials (including both control and fatigue). Once these relative 0-1
+values were established, the shift in the maximum between control and
+fatigue was determined along with the significance of the shift.</p>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
+<pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 153 × 4
+## # Groups:   subject [26]
+##    subject activity model  AICc
+##    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt;
+##  1 Audrey  control  m2    -376.
+##  2 Audrey  control  m3    -376.
+##  3 Audrey  control  m4    -383.
+##  4 Audrey  fatigue  m2     115.
+##  5 Audrey  fatigue  m3     114.
+##  6 Audrey  fatigue  m4     115.
+##  7 Baylie  control  m2    -558.
+##  8 Baylie  control  m3    -627.
+##  9 Baylie  control  m4    -780.
+## 10 Baylie  fatigue  m2    -410.
+## # ℹ 143 more rows</code></pre>
+<pre><code>## Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
+## dplyr 1.1.0.
+## ℹ Please use `reframe()` instead.
+## ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
+##   always returns an ungrouped data frame and adjust accordingly.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;subject&#39;, &#39;activity&#39;. You can override
+## using the `.groups` argument.
+## `summarise()` has grouped output by &#39;subject&#39;, &#39;activity&#39;. You can override
+## using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 153 × 4
+## # Groups:   subject, activity [51]
+##    subject activity model theta_max
+##    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;
+##  1 Audrey  control  m2         90.8
+##  2 Audrey  control  m3        101. 
+##  3 Audrey  control  m4        100. 
+##  4 Audrey  fatigue  m2        108. 
+##  5 Audrey  fatigue  m3        118. 
+##  6 Audrey  fatigue  m4        114. 
+##  7 Baylie  control  m2        158. 
+##  8 Baylie  control  m3         62.9
+##  9 Baylie  control  m4         87.5
+## 10 Baylie  fatigue  m2        102. 
+## # ℹ 143 more rows</code></pre>
+<pre><code>## Joining with `by = join_by(subject, activity, model)`</code></pre>
+<pre><code>## # A tibble: 51 × 5
+## # Groups:   subject, activity [51]
+##    subject activity model theta_max    AICc
+##    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Audrey  control  m4        100.   -383. 
+##  2 Audrey  fatigue  m3        118.    114. 
+##  3 Baylie  control  m4         87.5  -780. 
+##  4 Baylie  fatigue  m4        110.   -525. 
+##  5 Jaan    control  m4         83.4 -1698. 
+##  6 Jaan    fatigue  m4         93.1 -1043. 
+##  7 Julia   control  m4         86.1  -952. 
+##  8 Julia   fatigue  m4         96.7  -725. 
+##  9 Lauren  control  m4        110.  -1651. 
+## 10 Lauren  fatigue  m3        132.    -39.7
+## # ℹ 41 more rows</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: theta_max
+##            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## activity    1   8888  8888.4  14.238 0.0002309 ***
+## Residuals 151  94266   624.3                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre><code>## Warning: Unknown or uninitialised column: `fatigue`.</code></pre>
+<pre><code>##  NULL</code></pre>
+<pre><code>## Warning: Unknown or uninitialised column: `control`.</code></pre>
+<pre><code>##  NULL</code></pre>
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>
 </div>
 <div id="author-contributions" class="section level1">
 <h1>Author Contributions</h1>
-<p>Audrey: Ava: Blake: Conor:</p>
+<p>Audrey: Methods Ava: Blake: Conor:</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-butterfield2005" class="csl-entry">
+Butterfield, Timothy A, and Walter Herzog. 2005. <span>“Is the
+Force-Length Relationship a Useful Indicator of Contractile Element
+Damage Following Eccentric Exercise?”</span> <em>Journal of
+Biomechanics</em> 38 (9): 1932–37. https://doi.org/<a href="https://doi.org/10.1016/j.jbiomech.2004.08.013">https://doi.org/10.1016/j.jbiomech.2004.08.013</a>.
+</div>
+</div>
 </div>
 
 

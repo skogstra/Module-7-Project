@@ -104,7 +104,15 @@ best.models %>%
 ```
 
 ```{r graphs, echo=F}
-
+ang <- seq(45,168.75,length.out = 10177)
+dat %>% 
+  ggplot(aes(ang,norm_force,col=activity)) +
+  geom_point() +
+    labs(
+    title = "Normalized Force by Activity and Angle",
+    x = "Angle",
+    y = "Normalized Force",
+  )
 ```
 
 # Discussion

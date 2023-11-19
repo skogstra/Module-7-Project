@@ -50,15 +50,47 @@ dat %>%
 
 ang <- seq(45,168.75,length.out = 10642)
 
+#Getting AICc scores for the three polynomial models
 AICs <- dat%>%
   group_by(subject,activity) %>% 
   summarize(
-    m2=AICc(lm(force~poly(ang,2))),
-    m3=AICc(lm(force~poly(ang,3))), 
-    m4=AICc(lm(force~poly(ang,4)))
+    m2=AICc(lm(force~poly(ang,2),.)),
+    m3=AICc(lm(force~poly(ang,3),.)), 
+    m4=AICc(lm(force~poly(ang,4),.))
   )%>%
   pivot_longer(m2:m4,names_to="model",values_to="AICc")%>%
   print()
+
+#Predicting values
+fits <- dat%>%
+  group_by(subject,activity)%>%
+  summarize(
+    m2=predict(lm(force~poly(ang,2),.),newdata=data.frame(ang=x.pred)),
+    m3=predict(lm(force~poly(ang,3),.),newdata=data.frame(ang=x.pred)), 
+    m4=predict(lm(force~poly(ang,4),.),newdata=data.frame(ang=x.pred)) 
+  )%>%
+   pivot_longer(m2:m4,names_to="model")%>%
+   group_by(subject,activity,model)%>%
+   summarize(theta_max=x.pred[which.max(value)])%>%
+   print()
+
+#Joining AICs and fits tables to filter model predictions by best fitting model
+best.models <- fits%>%
+  left_join(AICs)%>%
+  group_by(subject,activity)%>%
+  mutate(best=AICc==min(AICc))%>%
+  filter(best==TRUE)%>%
+  dplyr::select(-best)%>%
+  print()
+
+anova(lm(theta_max~activity,best.models))
+
+#Calculating mean shift with SEM
+best.models %>%
+  pivot_wider(id_cols=subject,names_from=activity,values_from=theta_max) %>% 
+  mutate(shift=fatigue-control) %>% 
+  ungroup()%>%
+  summarise(mean.shift=mean(shift),se.shift=sd(shift)/sqrt(length(shift)))
 ```
 
 # Discussion

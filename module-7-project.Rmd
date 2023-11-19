@@ -100,7 +100,7 @@ best.models %>%
   pivot_wider(id_cols=subject, names_from=activity, values_from=theta_max)%>%
   mutate(shift= fatigue-control) %>% 
   ungroup()%>%
-  summarise(mean.shift=mean(shift),se.shift=sd(shift)/sqrt(length(shift)))
+  summarise(mean.shift=mean(shift,na.rm=TRUE),se.shift=sd(shift,na.rm=TRUE)/sqrt(length(shift,na.rm=TRUE)))
 ```
 
 ```{r graphs, echo=F}

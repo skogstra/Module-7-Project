@@ -45,10 +45,9 @@ dat <- dat%>%
   group_by(subject,activity)%>%
   mutate(norm_force=force_max/max(force_max))
 
+ang <- seq(45,168.75,length.out = 10642)
 dat %>% 
   ggplot(aes(ang,force,col=activity))+geom_point()
-
-ang <- seq(45,168.75,length.out = 10642)
 
 #Getting AICc scores for the three polynomial models
 AICs <- dat%>%
@@ -62,6 +61,7 @@ AICs <- dat%>%
   print()
 
 #Predicting values
+x.pred <- seq(45,157.5,length.out = 1000)
 fits <- dat%>%
   group_by(subject,activity)%>%
   summarize(
@@ -77,7 +77,8 @@ fits <- dat%>%
 #Joining AICs and fits tables to filter model predictions by best fitting model
 best.models <- fits%>%
   left_join(AICs)%>%
-  group_by(subject,activity)%>%
+  group_by(subject,activity) 
+best.models %>% 
   mutate(best=AICc==min(AICc))%>%
   filter(best==TRUE)%>%
   dplyr::select(-best)%>%

@@ -50,7 +50,7 @@ dat <- dat%>%
 
 ang <- seq(45,168.75,length.out = 10642)
 dat %>% 
-  ggplot(aes(ang,force,col=activity))+geom_point()
+  ggplot(aes(ang,norm_force,col=activity))+geom_point()
 
 #Getting AICc scores for the three polynomial models
 AICs <- dat%>%

@@ -442,13 +442,6 @@ fatigue was determined along with the significance of the shift.</p>
 ##  9 Baylie  control  m4    -780.
 ## 10 Baylie  fatigue  m2    -410.
 ## # ℹ 143 more rows</code></pre>
-<pre><code>## Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
-## dplyr 1.1.0.
-## ℹ Please use `reframe()` instead.
-## ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
-##   always returns an ungrouped data frame and adjust accordingly.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;subject&#39;, &#39;activity&#39;. You can override
 ## using the `.groups` argument.
 ## `summarise()` has grouped output by &#39;subject&#39;, &#39;activity&#39;. You can override
@@ -487,15 +480,15 @@ fatigue was determined along with the significance of the shift.</p>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: theta_max
-##            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
-## activity    1   8888  8888.4  14.238 0.0002309 ***
-## Residuals 151  94266   624.3                      
+##           Df  Sum Sq Mean Sq F value  Pr(&gt;F)  
+## activity   1  2796.5 2796.49  5.8026 0.01981 *
+## Residuals 49 23614.9  481.94                  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre><code>## Warning: Unknown or uninitialised column: `fatigue`.</code></pre>
-<pre><code>##  NULL</code></pre>
-<pre><code>## Warning: Unknown or uninitialised column: `control`.</code></pre>
-<pre><code>##  NULL</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   mean.shift se.shift
+##        &lt;dbl&gt;    &lt;dbl&gt;
+## 1         NA       NA</code></pre>
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>

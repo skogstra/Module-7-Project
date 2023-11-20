@@ -1,0 +1,11 @@
+# Discussion
+
+The results of our analysis on class-wide force-angle data for isometric Maximum Voluntary Contraction (MVC) present compelling insights into the impact of fatigue on force-angle dynamics. The mixed-effects ANOVA on theta max revealed a statistically significant effect of activity (F(1,49) = 5.8026, p = 0.01981), indicating a distinct alteration in the maximum angle achieved during isometric MVC under fatigue compared to control conditions. The mean shift in theta max between control and fatigue conditions is 14.8 degrees, with a standard error of 5.46 degrees.
+
+The AICc model comparison further elucidates the nuanced relationships between theta max and the experimental conditions. Examining individual subjects, models m2, m3, and m4 exhibited varying AICc scores, emphasizing subject-specific responses to isometric MVC under both control and fatigue conditions. For instance, subject Audrey demonstrated different model fits across the two activities, underscoring the importance of considering individual variability in force-angle relationships.
+
+Comparing our findings to existing literature, the observed shift in theta max aligns with studies highlighting the impact of neuromuscular fatigue on muscle performance and proprioception. The significant effect of activity suggests a systematic change in force-angle dynamics induced by fatigue, contributing to our understanding of the intricate interplay between muscle function and fatigue.
+
+The individual variability highlighted in the AICc model comparisons emphasizes the need for personalized approaches in studying force-angle dynamics. Muscle coordination and response to fatigue are inherently individualistic, and our results underscore the importance of considering subject-specific patterns in future analyses.
+
+In conclusion, our study advances the understanding of force-angle dynamics during isometric MVC, particularly in the context of fatigue. The observed changes have implications for sports science, rehabilitation, and biomechanics, highlighting the need for tailored interventions that account for individual variations in muscle response to fatigue.
